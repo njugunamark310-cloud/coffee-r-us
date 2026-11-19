@@ -8,12 +8,9 @@ function useProducts() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  // GET: Load products from the backend
+  // GET: Fetch products
   const fetchProducts = useCallback(async () => {
     try {
-      setLoading(true)
-      setError('')
-
       const response = await fetch(API_URL)
 
       if (!response.ok) {
@@ -22,6 +19,7 @@ function useProducts() {
 
       const data = await response.json()
       setProducts(data)
+      setError('')
     } catch (err) {
       setError(err.message)
     } finally {
@@ -30,10 +28,14 @@ function useProducts() {
   }, [])
 
   useEffect(() => {
-    fetchProducts()
+    const timer = setTimeout(() => {
+      fetchProducts()
+    }, 0)
+
+    return () => clearTimeout(timer)
   }, [fetchProducts])
 
-  // POST: Add a new product
+  // POST: Add product
   const addProduct = async (product) => {
     const response = await fetch(API_URL, {
       method: 'POST',
@@ -51,7 +53,7 @@ function useProducts() {
     return newProduct
   }
 
-  // PATCH: Update an existing product
+  // PATCH: Update product
   const updateProduct = async (id, updates) => {
     const response = await fetch(`${API_URL}/${id}`, {
       method: 'PATCH',
@@ -74,7 +76,7 @@ function useProducts() {
     return updatedProduct
   }
 
-  // DELETE: Remove a product
+  // DELETE: Remove product
   const deleteProduct = async (id) => {
     const response = await fetch(`${API_URL}/${id}`, {
       method: 'DELETE',

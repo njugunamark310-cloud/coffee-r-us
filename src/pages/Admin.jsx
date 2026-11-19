@@ -1,7 +1,10 @@
 
 import { useState } from 'react'
+import useProducts from '../hooks/useProducts'
 
 function Admin() {
+  const { products, loading, error, addProduct } = useProducts()
+
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -11,6 +14,7 @@ function Admin() {
   })
 
   const [message, setMessage] = useState('')
+  const [submitting, setSubmitting] = useState(false)
 
   function handleChange(event) {
     const { name, value } = event.target
@@ -21,18 +25,31 @@ function Admin() {
     }))
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault()
+    setSubmitting(true)
+    setMessage('')
 
-    setMessage('Form completed! Backend integration is our next step.')
+    try {
+      await addProduct({
+        ...formData,
+        price: Number(formData.price),
+      })
 
-    setFormData({
-      name: '',
-      description: '',
-      origin: '',
-      price: '',
-      location: '',
-    })
+      setMessage('Coffee product added successfully!')
+
+      setFormData({
+        name: '',
+        description: '',
+        origin: '',
+        price: '',
+        location: '',
+      })
+    } catch (err) {
+      setMessage(err.message)
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -139,7 +156,7 @@ function Admin() {
                 required
                 className="w-full border border-[#e8dccb] rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#a17b59] bg-white"
               >
-                <option value="">Select origin</option>
+                <option value="">Select location</option>
                 <option value="Kenya">Kenya</option>
                 <option value="Ethiopia">Ethiopia</option>
                 <option value="Colombia">Colombia</option>
@@ -150,9 +167,10 @@ function Admin() {
 
           <button
             type="submit"
-            className="w-full bg-[#4a3025] text-white py-4 rounded-xl font-bold hover:bg-[#80583d]"
+            disabled={submitting}
+            className="w-full bg-[#4a3025] text-white py-4 rounded-xl font-bold hover:bg-[#80583d] disabled:opacity-60"
           >
-            Add Coffee Product
+            {submitting ? 'Adding Product...' : 'Add Coffee Product'}
           </button>
 
           {message && (
@@ -168,14 +186,40 @@ function Admin() {
           Inventory Management
         </h2>
 
-    <div className="bg-white rounded-2xl p-8 shadow-sm">
-        <p className="text-[#76675d]">
-        Your product inventory will appear here once we connect the backend.
-       </p>
-    </div>
-</section>
-</main>
+        {loading ? (
+          <p className="text-[#76675d]">Loading inventory...</p>
+        ) : error ? (
+          <p role="alert" className="text-red-600">{error}</p>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {products.map((product) => (
+              <div
+                key={product.id}
+                className="bg-white rounded-2xl p-6 shadow-sm"
+              >
+                <h3 className="font-bold text-lg text-[#4a3025]">
+                  {product.name}
+                </h3>
+
+                <p className="text-sm text-[#76675d] mt-2">
+                  {product.description}
+                </p>
+
+                <p className="text-sm text-[#76675d] mt-3">
+                  {product.origin}
+                </p>
+
+                <p className="font-bold text-[#9b7657] mt-3">
+                  KSh {Number(product.price).toLocaleString()}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+    </main>
   )
 }
 
 export default Admin
+
