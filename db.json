@@ -1,0 +1,30 @@
+
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Kenyan AA Coffee",
+      "description": "Rich aroma with fruity notes and a smooth finish.",
+      "origin": "Nyeri, Kenya",
+      "price": 1200,
+      "location": "Location 1"
+    },
+    {
+      "id": "2",
+      "name": "Ethiopian Yirgacheffe",
+      "description": "Floral fragrance with bright citrus flavours.",
+      "origin": "Yirgacheffe, Ethiopia",
+      "price": 1500,
+      "location": "Location 2"
+    },
+    {
+      "id": "3",
+      "name": "Colombian Supremo",
+      "description": "Balanced coffee with caramel and chocolate notes.",
+      "origin": "Huila, Colombia",
+      "price": 1350,
+      "location": "Location 3"
+    }
+  ]
+}
+
