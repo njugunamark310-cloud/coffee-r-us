@@ -1,16 +1,20 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { Routes, Route } from 'react-router-dom'
+import Navbar from './components/Navbar'
+import Home from './pages/Home'
+import Shop from './pages/Shop'
+import Admin from './pages/Admin'
 
 function App() {
   return (
-    <div className="min-h-screen bg-amber-50 flex items-center justify-center">
-      <h1 className="text-5xl font-bold text-amber-900">
-        Coffee R Us ☕
-      </h1>
-    </div>
+    <>
+      <Navbar />
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/admin" element={<Admin />} />
+      </Routes>
+    </>
   )
 }
 
