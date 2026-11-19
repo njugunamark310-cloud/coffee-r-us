@@ -79,11 +79,12 @@ function Admin() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block font-semibold text-sm mb-2">
+            <label htmlFor="name" className="block font-semibold text-sm mb-2">
               Coffee Name
             </label>
 
             <input
+              id="name"
               type="text"
               name="name"
               value={formData.name}
@@ -95,11 +96,12 @@ function Admin() {
           </div>
 
           <div>
-            <label className="block font-semibold text-sm mb-2">
+            <label htmlFor="description" className="block font-semibold text-sm mb-2">
               Description
             </label>
 
             <textarea
+              id="description"
               name="description"
               value={formData.description}
               onChange={handleChange}
@@ -111,11 +113,12 @@ function Admin() {
           </div>
 
           <div>
-            <label className="block font-semibold text-sm mb-2">
+            <label htmlFor="origin" className="block font-semibold text-sm mb-2">
               Origin
             </label>
 
             <input
+              id="origin"
               type="text"
               name="origin"
               value={formData.origin}
@@ -128,11 +131,12 @@ function Admin() {
 
           <div className="grid sm:grid-cols-2 gap-6">
             <div>
-              <label className="block font-semibold text-sm mb-2">
+              <label htmlFor="price" className="block font-semibold text-sm mb-2">
                 Price (KSh)
               </label>
 
               <input
+              id="price"
                 type="number"
                 name="price"
                 value={formData.price}
@@ -145,11 +149,12 @@ function Admin() {
             </div>
 
             <div>
-              <label className="block font-semibold text-sm mb-2">
+              <label htmlFor="location" className="block font-semibold text-sm mb-2">
                 Location
               </label>
 
               <select
+              id="location"
                 name="location"
                 value={formData.location}
                 onChange={handleChange}
